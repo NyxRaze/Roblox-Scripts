@@ -83,11 +83,17 @@ function UIBuilder:Header(Text: string): Component
     })
 end
 
-function UIBuilder:Paragraph(Header: string, Body: string): Component
-    return self:Component("Paragraph", {
-        Header = Header,
-        Body = Body
-    })
+function UIBuilder:Paragraph(
+	Id: string,
+	Header: string,
+	Body: string
+): Component
+
+	return self:Component("Paragraph", {
+		Id = Id,
+		Header = Header,
+		Body = Body,
+	})
 end
 
 function UIBuilder:Label(Text: string): Component
@@ -142,8 +148,8 @@ function UIBuilder:Build(
 	Window: any,
 	Tabs: { TabData }
 )
-
 	local TabGroup = Window:TabGroup()
+	local References = {}
 
 	for _, TabData in ipairs(Tabs) do
 		local Tab = TabGroup:Tab({
@@ -159,14 +165,17 @@ function UIBuilder:Build(
 			for _, ComponentData in ipairs(SectionData.Components) do
 				if ComponentData.Type == "Divider" then
 					Section:Divider()
-
 					continue
 				end
 
 				local ComponentFunction = Section[ComponentData.Type]
 
 				if typeof(ComponentFunction) == "function" then
-					ComponentFunction(Section, ComponentData)
+					local Component = ComponentFunction(Section, ComponentData)
+
+					if ComponentData.Id then
+						References[ComponentData.Id] = Component
+					end
 				else
 					warn(
 						"[UIBuilder] Unknown component:",
@@ -177,7 +186,5 @@ function UIBuilder:Build(
 		end
 	end
 
-	return TabGroup
+	return TabGroup, References
 end
-
-return UIBuilder
