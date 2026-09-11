@@ -76,33 +76,31 @@ function UIBuilder:Dropdown(
 	})
 end
 
-function UIBuilder:Header(Text: string): Component
+function UIBuilder:Header(Name: string, Text: string): Component
     return self:Component("Header", {
+		Name = Name,
         Text = Text
     })
 end
 
-function UIBuilder:Paragraph(
-	Id: string,
-	Header: string,
-	Body: string
-): Component
-
+function UIBuilder:Paragraph(Name: string, Header: string, Body: string): Component
 	return self:Component("Paragraph", {
-		Id = Id,
+		Name = Name,
 		Header = Header,
 		Body = Body,
 	})
 end
 
-function UIBuilder:Label(Text: string): Component
+function UIBuilder:Label(Name: string, Text: string): Component
     return self:Component("Label", {
+		Name = Name,
         Text = Text
     })
 end
 
-function UIBuilder:SubLabel(Text: string): Component
+function UIBuilder:SubLabel(Name: string, Text: string): Component
     return self:Component("SubLabel", {
+		Name = Name,
         Text = Text
     })
 end
@@ -172,8 +170,8 @@ function UIBuilder:Build(
 				if typeof(ComponentFunction) == "function" then
 					local Component = ComponentFunction(Section, ComponentData)
 
-					if ComponentData.Id then
-						References[ComponentData.Id] = Component
+					if ComponentData.Name then
+						References[ComponentData.Name] = Component
 					end
 				else
 					warn(
