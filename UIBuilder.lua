@@ -77,6 +77,31 @@ function UIBuilder:Dropdown(
 	})
 end
 
+function UIBuilder:Header(Text: string): Component
+    return self:Component("Header", {
+        Text = Text
+    })
+end
+
+function UIBuilder:Paragraph(Header: string, Body: string): Component
+    return self:Component("Paragraph", {
+        Header = Header,
+        Body = Body
+    })
+end
+
+function UIBuilder:Label(Text: string): Component
+    return self:Component("Label", {
+        Text = Text
+    })
+end
+
+function UIBuilder:SubLabel(Text: string): Component
+    return self:Component("SubLabel", {
+        Text = Text
+    })
+end
+
 function UIBuilder:Divider(): Component
 	return self:Component("Divider")
 end
