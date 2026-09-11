@@ -1,4 +1,3 @@
-
 local UIBuilder = {}
 
 --// MacLib
@@ -188,3 +187,5 @@ function UIBuilder:Build(
 
 	return TabGroup, References
 end
+
+return UIBuilder
